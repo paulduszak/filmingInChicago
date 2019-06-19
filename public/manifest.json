@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Filming in Chicago",
+  "name": "Filming permit applications filed with Chicago's Department of Transportation",
   "icons": [
     {
       "src": "favicon.ico",
