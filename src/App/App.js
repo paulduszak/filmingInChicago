@@ -1,6 +1,8 @@
 import React from 'react';
-import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
+
+import PermitList from '../PermitList/PermitList';
 
 function App() {
   return (
@@ -11,7 +13,7 @@ function App() {
       <main className="container-fluid">
         <div className="row">
           <div className="col-md-6">
-            Col A
+            <PermitList />
           </div>
           <div className="col-md-6">
             Col B
