@@ -1,10 +1,12 @@
 import React, {Component} from 'react';
 import soda from 'soda-js';
+import Permit from '../Permit/Permit';
 
 class PermitList extends Component {
 
     state = {
-        permits: []
+        permits: [],
+        isLoading: true
     }
 
     formatDate(date) {
@@ -24,16 +26,34 @@ class PermitList extends Component {
             .getRows()
             .on('success', rows => {
                 this.setState({permits: rows});
+                this.setState({isLoading: false});
                 console.log(this.state);
             });
     }
 
     render () {
-        return (
-            <div>
-                <h1>Test</h1>
-            </div>
-        );
+        const { permits, isLoading } = this.state;
+        if(isLoading) { return <div> Loading </div> }
+        else {
+            console.log(this.state);
+            return (
+                <div>
+                    <h1>Permit List</h1>
+                    <table>
+                        {this.state.permits.map(perm=>(
+                            <Permit name={perm.applicationname}
+                                    number={perm.applicationnumber}
+                                    desc={perm.applicationdescription}
+                                    status={perm.applicationstatus}
+                                    milestone={perm.currentmilestone}
+                                    lat={perm.latitude}
+                                    long={perm.longitude}
+                                    address={perm.detail} />
+                        ))}
+                    </table>
+                </div>
+            );
+        }
     }
 }
 
