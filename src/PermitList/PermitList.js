@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import soda from 'soda-js';
 
+import Permit from '../Permit/Permit';
+
 class PermitList extends Component {
 
     state = {
@@ -12,6 +14,7 @@ class PermitList extends Component {
     }
 
     componentDidMount() {
+        //TODO: Find a better way to implement date ranges -- moment.js?
         let d1 = new Date(Date.now());
         let d2 = new Date(Date.now());
             d2.setDate(d2.getDate() + 7);
@@ -20,6 +23,7 @@ class PermitList extends Component {
         
         consumer.query()
             .withDataset('c2az-nhru')
+            .select("distinct applicationnumber, applicationstartdate, applicationname, comments")
             .where("APPLICATIONSTARTDATE between '" + this.formatDate(d1) + "' and '" + this.formatDate(d2) + "'")
             .getRows()
             .on('success', rows => {
@@ -29,9 +33,18 @@ class PermitList extends Component {
     }
 
     render () {
+        const permits = this.state.permits.map((permit, key) => {
+            return <Permit 
+                key={permit.applicationnumber}
+                startDate={permit.applicationstartdate} 
+                name={permit.applicationname}
+                comments={permit.comments}
+            />
+        })
+
         return (
-            <div>
-                <h1>Test</h1>
+            <div className="container">
+                {permits}
             </div>
         );
     }
