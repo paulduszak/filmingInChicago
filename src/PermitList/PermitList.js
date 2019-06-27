@@ -23,8 +23,9 @@ class PermitList extends Component {
         
         consumer.query()
             .withDataset('c2az-nhru')
-            .select("distinct applicationnumber, applicationstartdate, applicationname, comments")
+            .select("distinct applicationnumber, applicationstartdate, applicationenddate, applicationname, streetnumberfrom, streetnumberto, direction, streetname, comments")
             .where("APPLICATIONSTARTDATE between '" + this.formatDate(d1) + "' and '" + this.formatDate(d2) + "'")
+            .order("applicationstartdate")
             .getRows()
             .on('success', rows => {
                 this.setState({permits: rows});
@@ -36,8 +37,13 @@ class PermitList extends Component {
         const permits = this.state.permits.map((permit, key) => {
             return <Permit 
                 key={permit.applicationnumber}
-                startDate={permit.applicationstartdate} 
+                startDate={permit.applicationstartdate}
+                endDate={permit.applicationenddate}
                 name={permit.applicationname}
+                streetFrom={permit.streetnumberfrom}
+                streetTo={permit.streetnumberto}
+                streetDirection={permit.direction}
+                streetName={permit.streetname}
                 comments={permit.comments}
             />
         })
